@@ -11,7 +11,7 @@ do
     ch=${str:$i:1}
 
     case $ch in
-        [aeiouAEIOU]
+        [aeiouAEIOU])
             count=$((count+1))
             ;;
     esac

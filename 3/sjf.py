@@ -10,7 +10,7 @@ for i in range(n):
     bt = int(input(f"Enter Burst Time of {pid}: "))
     processes.append([pid, at, bt])
 
-completed = []
+completed =[]
 time = 0
 gantt = []
 
@@ -35,20 +35,16 @@ while len(completed) < n:
         if p[2] < shortest[2]:
             shortest = p
 
-    pid = shortest[0]
-    at = shortest[1]
-    bt = shortest[2]
+    pid ,at,bt= shortest
 
-    start = time
-    ct = start + bt
+    ct = time + bt
     tat = ct - at
     wt = tat - bt
 
     shortest.extend([ct, tat, wt])
 
-    gantt.append((pid, start, bt))
+    gantt.append((pid, time, bt))
     completed.append(pid)
-
     time = ct
 
 # Display Table

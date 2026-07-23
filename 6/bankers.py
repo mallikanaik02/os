@@ -72,3 +72,5 @@ if count == n:
 else:
     print("\nSystem is NOT in a SAFE state.")
     print("Deadlock may occur.")
+
+

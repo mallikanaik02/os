@@ -15,7 +15,6 @@ for page in ref:
 
     else:
         faults += 1
-
         if len(memory) < frames:
             memory.append(page)
         else:
@@ -24,7 +23,6 @@ for page in ref:
             memory[index] = page
 
         recent.append(page)
-
     print(page, "\t", memory)
 
 print("\nTotal Page Faults =", faults)

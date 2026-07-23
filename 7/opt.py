@@ -6,12 +6,11 @@ faults = 0
 
 print("\nPage\tFrames")
 
-for i in range(len(ref)):
+i = 0
 
-    page = ref[i]
+for page in ref:
 
     if page not in memory:
-
         faults += 1
 
         if len(memory) < frames:
@@ -20,22 +19,25 @@ for i in range(len(ref)):
         else:
 
             farthest = -1
-            index = -1
+            replace = 0
 
-            for j in range(len(memory)):
+            for j in range(frames):
 
+                # Page will never be used again
                 if memory[j] not in ref[i+1:]:
-                    index = j
+                    replace = j
                     break
 
                 future = ref[i+1:].index(memory[j])
 
                 if future > farthest:
                     farthest = future
-                    index = j
+                    replace = j
 
-            memory[index] = page
+            memory[replace] = page
 
     print(page, "\t", memory)
+
+    i += 1
 
 print("\nTotal Page Faults =", faults)

@@ -46,9 +46,3 @@ done
 echo "Factorial of $num is $fact"
 
 
-
---bash ss.sh
-or 
-$nano ss.sh
-$chmod +x ss.sh
-$./ss.sh

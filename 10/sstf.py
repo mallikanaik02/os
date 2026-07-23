@@ -1,12 +1,6 @@
 import matplotlib.pyplot as plt
 
-n = int(input("Enter number of disk requests: "))
-
-requests = []
-
-print("Enter the disk requests:")
-for i in range(n):
-    requests.append(int(input()))
+requests = list(map(int, input("enter req sep by space ").split()))
 
 head = int(input("Enter initial head position: "))
 
@@ -14,7 +8,7 @@ sequence = [head]
 total_seek = 0
 current = head
 
-while len(requests) > 0:
+while len(requests) > 0:  
 
     nearest = requests[0]
 

@@ -7,7 +7,8 @@ n = int(input("Enter number of philosophers: "))
 # Create one fork (lock) for each philosopher
 forks = []
 for i in range(n):
-    forks.append(threading.Lock())
+    t=threading.Lock()
+    forks.append(t)
 
 def philosopher(i):
 

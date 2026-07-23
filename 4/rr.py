@@ -10,62 +10,58 @@ for i in range(n):
     bt = int(input(f"Enter Burst Time of {pid}: "))
     processes.append([pid, at, bt, bt])   # Remaining Time = BT
 
-tq = int(input("\nEnter Time Quantum: "))
+tq = int(input("Enter Time Quantum: "))
 
 time = 0
 completed = 0
 
-queue = []
-visited = [False] * n
+available = []
 gantt = []
 
 while completed < n:
 
     # Add newly arrived processes
-    for i in range(n):
-        if processes[i][1] <= time and not visited[i]:
-            queue.append(i)
-            visited[i] = True
+    for p in processes:
+        if p[1] <= time and p not in available and p[3] > 0:
+            available.append(p)
 
-    if len(queue) == 0:
+    # If CPU is idle
+    if len(available) == 0:
         time += 1
         continue
 
-    i = queue.pop(0)
+    # Take first process
+    current = available.pop(0)
 
-    pid = processes[i][0]
-    at = processes[i][1]
-    bt = processes[i][2]
-    rt = processes[i][3]
+    pid,at,bt,rt= current
 
     # Execute process
     if rt > tq:
         gantt.append((pid, time, tq))
+        current[3] -= tq
         time += tq
-        processes[i][3] -= tq
     else:
         gantt.append((pid, time, rt))
         time += rt
-        processes[i][3] = 0
+        current[3] = 0
 
         ct = time
         tat = ct - at
         wt = tat - bt
 
-        processes[i].extend([ct, tat, wt])
+        current.extend([ct, tat, wt])
+
         completed += 1
 
-    # Add processes that arrived during execution
-    for j in range(n):
-        if processes[j][1] <= time and not visited[j]:
-            queue.append(j)
-            visited[j] = True
+    # Add newly arrived processes during execution
+    for p in processes:
+        if p[1] <= time and p not in available and p[3] > 0 and p != current:
+            available.append(p)
 
-    # Add current process back if not completed
-    if processes[i][3] > 0:
-        queue.append(i)
+    # Put process back if not completed
+    if current[3] > 0:
+        available.append(current)
 
-# Display Table
 print("\nRound Robin Scheduling\n")
 
 print("Process\tAT\tBT\tCT\tTAT\tWT")
@@ -83,20 +79,20 @@ for p in processes:
 print("\nAverage Waiting Time =", totalWT / n)
 print("Average Turnaround Time =", totalTAT / n)
 
-# ---------- Gantt Chart ----------
+# Gantt Chart
 
-fig, ax = plt.subplots(figsize=(10,2))
+fig, ax = plt.subplots(figsize=(10, 2))
 
 for pid, start, bt in gantt:
-    ax.broken_barh([(start, bt)], (10,8))
-    ax.text(start + bt/2, 14, pid, ha="center", va="center")
+    ax.broken_barh([(start, bt)], (10, 8))
+    ax.text(start + bt/2, 14, pid, ha="center")
 
 times = [0]
 for _, start, bt in gantt:
     times.append(start + bt)
 
 ax.set_xlim(0, time)
-ax.set_ylim(5,25)
+ax.set_ylim(5, 25)
 ax.set_xlabel("Time")
 ax.set_yticks([])
 ax.set_xticks(times)

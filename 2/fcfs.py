@@ -33,10 +33,6 @@ for p in processes:
     p.extend([ct, tat, wt])
 
     gantt.append((pid, time, bt))
-
-    totalWT += wt
-    totalTAT += tat
-
     time = ct
 
 print("\nFCFS Scheduling\n")
@@ -45,6 +41,8 @@ print("Process\tAT\tBT\tCT\tTAT\tWT")
 
 for p in processes:
     print(f"{p[0]}\t{p[1]}\t{p[2]}\t{p[3]}\t{p[4]}\t{p[5]}")
+    totalWT += p[5];
+    totalTAT += p[4];
 
 print("\nAverage Waiting Time =", totalWT / n)
 print("Average Turnaround Time =", totalTAT / n)
